@@ -1,5 +1,4 @@
 import React from 'react';
-import { hot } from 'react-hot-loader';
 
 import './App.css';
 
@@ -13,4 +12,4 @@ class App extends React.PureComponent {
   }
 }
 
-export default hot(module)(App);
+export default App;
