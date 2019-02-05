@@ -6,7 +6,8 @@
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-hot-loader": "^4.6.3"
+    "react-hot-loader": "^4.6.3",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
