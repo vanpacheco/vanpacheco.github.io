@@ -17,22 +17,41 @@ class Typewriter extends React.PureComponent {
 
     for (let child of children) {
       promiseSerial(
-        child.split('').map(char => () => this.generateDelay(char))
-      );
+        child
+          .split('')
+          .map(char => () => this.generateDelay(char, this.addCharToText))
+      ).then(() => {
+        // this.deleteText();
+      });
     }
   };
 
-  generateDelay = char => {
-    return new Promise(resolve => {
-      setTimeout(
-        () =>
-          this.setState(
-            prevState => ({ text: prevState.text + char }),
-            resolve
-          ),
-        50
-      );
+  deleteText = () => {
+    const { text } = this.state;
+    promiseSerial(
+      text
+        .split('')
+        .map(() => () => this.generateDelay(null, this.deleteLastCharFromText))
+    ).then(() => {
+      // this.typeText();
     });
+  };
+
+  generateDelay = (char, func) => {
+    return new Promise(resolve => {
+      setTimeout(() => func(char, resolve), 50);
+    });
+  };
+
+  addCharToText = (char, callback) => {
+    this.setState(prevState => ({ text: prevState.text + char }), callback);
+  };
+
+  deleteLastCharFromText = (_, callback) => {
+    this.setState(
+      prevState => ({ text: prevState.text.slice(0, -1) }),
+      callback
+    );
   };
 
   render() {
