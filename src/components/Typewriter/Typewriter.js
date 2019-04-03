@@ -1,63 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Cursor from '../Cursor/Cursor';
 import { promiseSerial } from '../../utils';
 
 class Typewriter extends React.PureComponent {
   state = {
-    text: ''
+    text: '',
+    typing: true
   };
 
-  componentDidMount() {
-    this.typeText();
+  async componentDidMount() {
+    await this.main();
   }
 
-  typeText = () => {
-    const { children } = this.props;
+  main = async () => {
+    for (let child of this.props.children) {
+      await this.typeText(child);
 
-    for (let child of children) {
-      promiseSerial(
-        child
-          .split('')
-          .map(char => () => this.generateDelay(char, this.addCharToText))
-      ).then(() => {
-        // this.deleteText();
-      });
+      this.setState({ typing: false });
+      await this.delay(2500, resolve =>
+        this.setState({ typing: true }, resolve)
+      );
+
+      await this.deleteText(child);
+
+      this.setState({ typing: false });
+      await this.delay(700, resolve =>
+        this.setState({ typing: true }, resolve)
+      );
     }
   };
 
-  deleteText = () => {
-    const { text } = this.state;
-    promiseSerial(
-      text
-        .split('')
-        .map(() => () => this.generateDelay(null, this.deleteLastCharFromText))
-    ).then(() => {
-      // this.typeText();
-    });
+  typeText = text => {
+    return promiseSerial(
+      text.split('').map(char => () => this.delay(100, this.typeChar, char))
+    );
   };
 
-  generateDelay = (char, func) => {
-    return new Promise(resolve => {
-      setTimeout(() => func(char, resolve), 50);
-    });
-  };
-
-  addCharToText = (char, callback) => {
+  typeChar = (callback, char) => {
     this.setState(prevState => ({ text: prevState.text + char }), callback);
   };
 
-  deleteLastCharFromText = (_, callback) => {
+  deleteText = text => {
+    return promiseSerial(
+      text.split('').map(() => () => this.delay(100, this.deleteLastChar))
+    );
+  };
+
+  deleteLastChar = callback => {
     this.setState(
       prevState => ({ text: prevState.text.slice(0, -1) }),
       callback
     );
   };
 
-  render() {
-    const { text } = this.state;
+  delay = (time, func, ...args) => {
+    return new Promise(resolve => {
+      return setTimeout(func ? () => func(resolve, args) : resolve, time);
+    });
+  };
 
-    return <div>{text}</div>;
+  render() {
+    const { text, typing } = this.state;
+
+    return (
+      <div>
+        {text}
+        <Cursor blinking={!typing} />
+      </div>
+    );
   }
 }
 

@@ -5,12 +5,12 @@ import { Typewriter } from './components/Typewriter'; // Why is it not picking u
 
 class App extends React.PureComponent {
   render() {
-    const greetings = ['Hello, I am',];
+    const greetings = ['Hello, I am', 'Hola, soy', 'Hallo, Ich bin'];
 
     return (
       <div className="app">
         <Typewriter>{greetings}</Typewriter>
-        <h1>Vane!</h1>
+        <h1>V!</h1>
       </div>
     );
   }
