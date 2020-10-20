@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+}
+
+.app {
+  font-family: 'Asap', 'Open Sans', 'Pacifico';
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.code {
+  color: #e83e8c;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}

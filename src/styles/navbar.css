@@ -1,0 +1,19 @@
+.v-navbar {
+ display: flex;
+ justify-content: space-between;
+}
+
+.v-navbar div {
+  display: flex;
+
+}
+
+.v-navbar a {
+  padding: 30px;
+}
+
+.v-navbar a,
+.v-navbar a:focus,
+.v-navbar a:hover {
+  text-decoration: none;
+}
