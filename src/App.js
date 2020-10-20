@@ -1,19 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import './App.css';
-import { Typewriter } from './components/Typewriter'; // Why is it not picking up the index?
+import { Home, Navbar } from "./components"; // why adding a package.json to components doesnt work?
+import "./app.css";
 
-class App extends React.PureComponent {
-  render() {
-    const greetings = ['Hello, I am', 'Hola, soy', 'Hallo, Ich bin'];
-
-    return (
-      <div className="app">
-        <Typewriter>{greetings}</Typewriter>
-        <h1>V!</h1>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div className="app">
+      <Navbar />
+      <Home />
+    </div>
+  );
+};
 
 export default App;
